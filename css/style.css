@@ -266,7 +266,7 @@
 @font-face {
   font-weight: 600;
   font-family: "Open Sans";
-  src: url(fonts/OpenSans-SemiBold.ttf);
+  src: url(/fonts/OpenSans-SemiBold.ttf);
 }
 
 .container {
