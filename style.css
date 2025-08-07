@@ -1,0 +1,804 @@
+:root {
+  --main-color: rgba(25, 70, 186, 0.85);
+  --secondary-color: #f21f5b;
+  --additional-color: #38C463;
+  --title-color: #222222;
+  --text-color: #c4c4c4;
+  --white: white;
+
+  --size-58px: 3.625rem;
+  --size-52px: 3.25rem;
+  --size-44px: 2.75rem;
+  --size-40px: 2.5rem;
+  --size-38px: 2.375rem;
+  --size-36px: 2.25rem;
+  --size-34px: 2.125rem;
+  --size-32px: 2rem;
+  --size-30px: 1.875rem;
+  --size-28px: 1.75rem;
+  --size-26px: 1.625rem;
+  --size-24px: 1.5rem;
+  --size-22px: 1.375rem;
+  --size-20px: 1.25rem;
+  --size-18px: 1.125rem;
+  --size-16px: 1rem;
+  --size-14px: 0.875rem;
+  --size-12px: 0.75rem;
+  --size-10px: 0.625rem;
+  --size-8px: 0.5rem;
+  --size-6px: 0.375rem;
+
+  --box-shadow: 0 var(--size-10px) var(--size-20px) 0 rgba(0, 0, 0, 0.1);
+
+  --button-transition:
+  border-color 0.3s ease,
+  color 0.3s ease,
+  background-color 0.3s ease;
+}
+
+/**
+  Нормализация блочной модели
+ */
+ *,
+ ::before,
+ ::after {
+   box-sizing: border-box;
+ }
+ 
+ /**
+   Убираем внутренние отступы слева тегам списков,
+   у которых есть атрибут class
+  */
+ :where(ul, ol):where([class]) {
+   padding-left: 0;
+ }
+ 
+ /**
+   Убираем внешние отступы body и двум другим тегам,
+   у которых есть атрибут class
+  */
+ body,
+ :where(blockquote, figure, fieldset):where([class]) {
+   margin: 0;
+ }
+ 
+ /**
+   Убираем внешние отступы вертикали нужным тегам,
+   у которых есть атрибут class
+  */
+ :where(
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6,
+   p,
+   ul,
+   ol,
+   dl
+ ):where([class]) {
+   margin-block: 0;
+ }
+ 
+ :where(dd[class]) {
+   margin-left: 0;
+ }
+ 
+ :where(fieldset[class]) {
+   padding: 0;
+   border: none;
+ }
+ 
+ /**
+   Убираем стандартный маркер маркированному списку,
+   у которого есть атрибут class
+  */
+ :where(ul[class]) {
+   list-style: none;
+ }
+ 
+ :where(address[class]) {
+   font-style: normal;
+ }
+ 
+ /**
+   Обнуляем вертикальные внешние отступы параграфа,
+   объявляем локальную переменную для внешнего отступа вниз,
+   чтобы избежать взаимодействие с более сложным селектором
+  */
+ p {
+  line-height: 150%;
+   margin-block: 0;
+ }
+ 
+ /**
+   Внешний отступ вниз для параграфа без атрибута class,
+   который расположен не последним среди своих соседних элементов
+  */
+ p:where(:not([class]):not(:last-child)) {
+   margin-bottom: var(--paragraphMarginBottom);
+ }
+ 
+ 
+ /**
+   Упрощаем работу с изображениями и видео
+  */
+ img,
+ video {
+   display: block;
+   max-width: 100%;
+   height: auto;
+ }
+ 
+ /**
+   Наследуем свойства шрифт для полей ввода
+  */
+ input,
+ textarea,
+ select,
+ button {
+   font: inherit;
+ }
+ 
+ html {
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   height: 100%;
+   /**
+     Убираем скачок интерфейса по горизонтали
+     при появлении / исчезновении скроллбара
+    */
+   scrollbar-gutter: stable;
+ }
+ 
+ /**
+   Плавный скролл
+  */
+ html {
+   scroll-behavior: smooth;
+ }
+ 
+ body {
+  font-family: Muller;
+  font-size: var(--size-14px);
+  background-color: #fafafa;
+  color: var(--title-color);
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   min-height: 100%;
+   /**
+     Унифицированный интерлиньяж
+    */
+   line-height: 150%;
+ }
+ 
+ /**
+   Нормализация высоты элемента ссылки при его инспектировании в DevTools
+  */
+ a:where([class]) {
+   display: inline-flex;
+ }
+
+ a {
+  text-decoration: none;
+  color: var(--title-color);
+ }
+ 
+ /**
+   Курсор-рука при наведении на элемент
+  */
+ button,
+ label {
+   cursor: pointer;
+ }
+ 
+ /**
+   Приводим к единому цвету svg-элементы
+   (за исключением тех, у которых уже указан
+   атрибут fill со значением 'none' или начинается с 'url')
+  */
+ :where([fill]:not(
+   [fill="none"],
+   [fill^="url"]
+ )) {
+   fill: currentColor;
+ }
+ 
+ /**
+   Приводим к единому цвету svg-элементы
+   (за исключением тех, у которых уже указан
+   атрибут stroke со значением 'none')
+  */
+ :where([stroke]:not(
+   [stroke="none"],
+   [stroke^="url"]
+ )) {
+   stroke: currentColor;
+ }
+ 
+ /**
+   Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+  */
+ svg * {
+   transition-property: fill, stroke;
+ }
+ 
+ /**
+   Приведение рамок таблиц в классический 'collapse' вид
+  */
+ :where(table) {
+   border-collapse: collapse;
+   border-color: currentColor;
+ }
+ 
+ /**
+   Удаляем все анимации и переходы для людей,
+   которые предпочитают их не использовать
+  */
+ @media (prefers-reduced-motion: reduce) {
+   *,
+   ::before,
+   ::after {
+     animation-duration: 0.01ms !important;
+     animation-iteration-count: 1 !important;
+     transition-duration: 0.01ms !important;
+     scroll-behavior: auto !important;
+   }
+ }
+
+@font-face {
+  font-weight: 400;
+  font-family: Muller;
+  src: url(/fonts/MullerRegular.woff2);
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: Muller;
+  src: url(/fonts/MullerBold.woff2);
+}
+
+@font-face {
+  font-weight: 600;
+  font-family: "Open Sans";
+  src: url(/fonts/OpenSans-SemiBold.ttf);
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 82.5rem;
+}
+
+.header {
+  padding: var(--size-32px) 0;
+  box-shadow: var(--box-shadow);
+  background: var(--white);
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+}
+
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--size-32px);
+  padding-left: 16.875rem;
+  height: var(--size-40px);
+}
+
+.header__search {
+  display: flex;
+  background-color: #F2F2F2;
+  height: 100%;
+  width: 100%;
+  border-radius: 0.38rem;
+}
+
+.search__input {
+  font-family: 'Open Sans';
+  font-weight: 600;
+  color: #b9b8b8;
+  flex: 1;
+  height: 100%;
+  background-color: transparent;
+  border: 0;
+  padding: 0 var(--size-16px) 0 var(--size-28px);
+}
+
+.search__input::placeholder {
+  color: #b9b8b8;
+}
+
+.search__input:focus {
+  outline: none;
+}
+
+.search__button {
+  height: 100%;
+  background-color: transparent;
+  border: 0;
+  border-left: #CCCCCC 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.search__icon {
+  color: var(--main-color);
+  height: var(--size-18px);
+  width: var(--size-18px);
+  margin: auto var(--size-18px);
+}
+
+.lang__icon {
+  color: var(--main-color);
+  height: 1rem;
+  width: 0.8rem;
+}
+
+.header__lang {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.lang__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--size-10px);
+  cursor: pointer;
+}
+
+.lang__dropdown {
+  position: absolute;
+  top: var(--size-32px);
+  display: none;
+  flex-direction: column;
+  gap: var(--size-8px);
+  padding: var(--size-8px) var(--size-14px);
+  background-color: var(--white);
+  box-shadow: var(--box-shadow);
+}
+
+.button {
+  height: 2.5rem;
+  width: 6.56rem;
+  background-color: transparent;
+  border-radius: 0.12rem;
+  border: 1px solid var(--white);
+  color: var(--white);
+
+  transition: var(--button-transition);
+}
+
+.header__button {
+  border: 1px solid var(--main-color);
+  color: var(--main-color);
+}
+
+.header__button:hover {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.lang__dropdown li {
+  cursor: pointer;
+}
+
+.lang:hover .lang__dropdown {
+  display: flex;
+}
+
+.hero {
+  padding: 10rem 0 8.125rem;
+}
+
+.hero__inner {
+  display: flex;
+  align-items: start;
+}
+
+.card-list {
+  border-radius: 0.31rem;
+  min-width: 15.62rem;
+  box-shadow: var(--box-shadow);
+  background: var(--white);
+  max-width: 15.62rem;
+  margin-right: var(--size-20px);
+  padding: var(--size-24px) var(--size-36px) var(--size-24px) var(--size-14px);
+}
+
+.card-list__icon {
+  max-height: var(--size-26px);
+  color: var(--secondary-color);
+}
+
+.card-list__item--chemistry {
+  width: var(--size-20px);
+}
+
+.card-list__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-6px);
+}
+
+.card-list__title {
+  font-weight: 700;
+  font-size: var(--size-18px);
+  margin-left: var(--size-6px);
+  margin-bottom: var(--size-8px);
+}
+
+.card-list__item {
+  display: grid;
+  align-items: center;
+  gap: var(--size-18px);
+  grid-template-columns: var(--size-24px) 1fr;
+  gap: var(--size-18px);
+  padding: var(--size-8px);
+  border-radius: 0.31rem;
+  line-height: 120%;
+  transition: var(--button-transition);
+  cursor: pointer;
+}
+
+.card-list__item:hover {
+  background-color: var(--main-color);
+  color: var(--white);
+}
+
+.hero__content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--size-44px) var(--size-32px);
+}
+
+.hero__card {
+  position: relative;
+  height: 18.06rem;
+  padding: var(--size-30px) var(--size-30px) var(--size-24px);
+  color: var(--white);
+}
+
+.hero__card-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  max-width: 35rem;
+}
+
+.hero__card--main {
+  background-color: var(--main-color);
+  grid-column: -1 / 1;
+}
+
+.hero__card--secondary {
+  background-color: var(--secondary-color);
+}
+
+.hero__card--additional {
+  background-color: var(--additional-color);
+}
+
+.hero__img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.hero__card-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16px);
+}
+
+.hero__h1 {
+  font-weight: 700;
+  font-size: var(--size-36px);
+  line-height: 110%;
+}
+
+.text {
+  color: var(--text-color);
+  font-size: var(--size-14px);
+}
+
+.hero__title {
+  font-size: var(--size-32px);
+  font-weight: 700;
+  line-height: 115%;
+}
+
+.hero__text {
+  opacity: 0.5;
+  color: var(--white);
+}
+
+.hero__button:hover {
+  background-color: white;
+  color: var(--title-color);
+}
+
+.hero__numbers {
+  display: flex;
+  gap: var(--size-22px);
+}
+
+.hero__number-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-6px);
+}
+
+.hero__number {
+  font-weight: 700;
+  font-size: var(--size-34px);
+}
+
+.hero__number-text {
+  font-size: var(--size-10px);
+  opacity: 0.5;
+}
+
+.cases {
+  padding-bottom: 8.75rem;
+}
+
+.cases__inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3.625rem;
+}
+
+.cases__card {
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
+  min-height: 12.19rem;
+  box-shadow: var(--box-shadow);
+  background: var(--white);
+}
+
+.cases__card {
+  padding: var(--size-38px) var(--size-30px);
+}
+
+.cases__icon {
+  color: var(--secondary-color);
+  width: var(--size-52px);
+  height: auto;
+  margin-bottom: var(--size-12px);
+}
+
+.cases__title {
+  font-size: var(--size-20px);
+}
+
+.cases__text {
+  line-height: 200%;
+}
+
+.category {
+  padding-bottom: 11.875rem;
+}
+
+.category__header {
+  font-size: var(--size-24px);
+  line-height: 117%;
+  font-weight: normal;
+  margin-bottom: var(--size-22px);
+}
+
+.category__content {
+  padding: var(--size-32px);
+  border-radius: var(--size-8px);
+  box-shadow: var(--box-shadow);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.category__tabs {
+  display: flex;
+  gap: var(--size-20px);
+}
+
+.category__tab {
+  line-height: 200%;
+  margin: var(--size-6px) var(--size-20px);
+  border-bottom: 1px var(--title-color) solid;
+  cursor: pointer;
+  transition: var(--button-transition);
+}
+
+.category__tab:hover {
+  padding: var(--size-6px) var(--size-20px);
+  margin: 0;
+  border-bottom: 0;
+  background-color: var(--main-color);
+  color: var(--white);
+  border-radius: 0.31rem;
+}
+
+.category__items {
+  padding: 0 var(--size-10px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8.75rem;
+}
+
+.category__item {
+  position: relative;
+}
+
+.category__img {
+  position: absolute;
+  top: 0;
+  left: var(--size-24px);
+}
+
+.category__item-inner {
+  padding-top: var(--size-34px);
+}
+
+.category__item-bg {
+  width: 8.62rem;
+  height: 6.69rem;
+  background: var(--main-color);
+}
+
+.category__title {
+  font-size: var(--size-24px);
+  line-height: 117%;
+  padding: var(--size-10px) 0;
+}
+
+.category__text {
+  max-width: 10rem;
+  line-height: 136%;
+}
+
+.category__button {
+  margin-top: var(--size-18px);
+  background-color: var(--main-color);
+  width: 7.25rem;
+  height: 1.62rem;
+  font-size: var(--size-10px);
+  border: 1px var(--main-color) solid;
+  transition: var(--button-transition);
+}
+
+.category__button:hover {
+  border: 1px var(--main-color) solid;
+  background-color: #fff;
+  color: var(--main-color);
+}
+
+.footer {
+  background-color: #232473;
+  color: var(--white);
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: var(--size-40px) 0;
+}
+
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-20px);
+}
+
+.footer__title {
+  font-size: var(--size-18px);
+  font-weight: 700;
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-8px);
+}
+
+.footer__link a {
+  color: var(--white);
+  font-size: var(--size-16px);
+}
+
+.footer__contacts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-12px);
+}
+
+.footer__button {
+  background-color: transparent;
+  padding: var(--size-6px) var(--size-12px);
+  border-radius: 1rem;
+  color: var(--white);
+  border: 1px white solid;
+  transition: var(--button-transition);
+}
+
+.footer__button:hover {
+  background-color: #fff;
+  color: var(--main-color);
+}
+
+.footer__socials {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-10px);
+}
+
+.footer__socials-list {
+  display: flex;
+  gap: var(--size-10px);
+}
+
+.footer__socials-item {
+  background-color: #2E2FB2;
+  height: var(--size-36px);
+  width: var(--size-36px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 100%;
+}
+
+.footer__socials-item a {
+  color: white;
+}
+
+.footer__bottom {
+  background-color: #1A1B56;
+  padding: var(--size-16px) 0;
+}
+
+.footer__bottom-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.footer__bottom-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-6px);
+  font-size: var(--size-12px);
+}
+
+.footer__bottom-text a {
+  color: var(--text-color);
+  line-height: 150%;
+}
+
+.footer__bottom-text p {
+  color: var(--text-color);
+  line-height: 150%;
+}
+
+.footer__bottom-text--right {
+  text-align: right;
+}
+
+.footer__bottom-logo {
+  justify-self: center;
+  filter: invert(1);
+  width: 6rem;
+  height: auto;
+}
