@@ -254,19 +254,19 @@
 @font-face {
   font-weight: 400;
   font-family: Muller;
-  src: url(/fonts/MullerRegular.woff2);
+  src: url(fonts/MullerRegular.woff2);
 }
 
 @font-face {
   font-weight: 700;
   font-family: Muller;
-  src: url(/fonts/MullerBold.woff2);
+  src: url(fonts/MullerBold.woff2);
 }
 
 @font-face {
   font-weight: 600;
   font-family: "Open Sans";
-  src: url(/fonts/OpenSans-SemiBold.ttf);
+  src: url(fonts/OpenSans-SemiBold.ttf);
 }
 
 .container {
@@ -300,7 +300,7 @@
 }
 
 .search__input {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-weight: 600;
   color: #b9b8b8;
   flex: 1;
