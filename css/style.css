@@ -420,9 +420,6 @@
     padding: var(--size-6px) var(--size-10px);
     font-size: var(--size-12px);
   }
-
-  .button {
-  }
 }
 
 .hero {
@@ -628,7 +625,7 @@
 
 
   .card-list__item {
-
+    display: flex;
   }
 
   .hero__content {
